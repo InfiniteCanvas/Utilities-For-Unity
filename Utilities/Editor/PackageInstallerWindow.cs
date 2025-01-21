@@ -9,12 +9,7 @@ namespace InfiniteCanvas.Utilities.Editor
 {
     public class PackageInstallerWindow : EditorWindow
     {
-        private readonly Queue<string>            _installationQueue = new();
-        private readonly Dictionary<string, bool> _pendingChanges    = new();
-        private          AddAndRemoveRequest      _installRequest;
-        private          bool                     _isInstalling;
-        private          Vector2                  _scrollPosition;
-        private          string                   _selectedPackageKey;
+        private readonly Queue<string> _installationQueue = new();
 
         private readonly Dictionary<string, (string url, string description, bool selected)> _packages = new()
         {
@@ -115,6 +110,12 @@ namespace InfiniteCanvas.Utilities.Editor
             },
         };
 
+        private readonly Dictionary<string, bool> _pendingChanges = new();
+        private          AddAndRemoveRequest      _installRequest;
+        private          bool                     _isInstalling;
+        private          Vector2                  _scrollPosition;
+        private          string                   _selectedPackageKey;
+
 
         private void OnGUI()
         {
@@ -148,32 +149,35 @@ namespace InfiniteCanvas.Utilities.Editor
 
             GUI.enabled = !_isInstalling;
             if (GUILayout.Button("Select All"))
-            {
-                foreach (var package in _packages.ToList())
+                foreach (KeyValuePair<string, (string url, string description, bool selected)> package in _packages
+                            .ToList())
                     _pendingChanges[package.Key] = true;
-            }
 
             if (GUILayout.Button("Deselect All"))
-            {
-                foreach (var package in _packages.ToList())
+                foreach (KeyValuePair<string, (string url, string description, bool selected)> package in _packages
+                            .ToList())
                     _pendingChanges[package.Key] = false;
-            }
 
             EditorGUILayout.Space(5);
 
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
-            foreach (var package in _packages.ToList())
+            foreach (KeyValuePair<string, (string url, string description, bool selected)> package in
+                     _packages.ToList())
             {
                 EditorGUILayout.BeginHorizontal();
 
-                var currentValue = _pendingChanges.ContainsKey(package.Key)
-                    ? _pendingChanges[package.Key]
+                // check if key exists in changes
+                var currentValue = _pendingChanges.TryGetValue(package.Key, out var pendingChange)
+                    ? pendingChange
                     : package.Value.selected;
 
                 var newSelected = EditorGUILayout.ToggleLeft(package.Key, currentValue, GUILayout.Width(200));
                 if (newSelected != currentValue)
+                {
                     _pendingChanges[package.Key] = newSelected;
+                    _selectedPackageKey = package.Key;
+                }
 
                 if (GUILayout.Button("Info", GUILayout.Width(50)))
                     _selectedPackageKey = package.Key;
@@ -195,12 +199,10 @@ namespace InfiniteCanvas.Utilities.Editor
                 return;
             }
 
-            if (_packages.TryGetValue(_selectedPackageKey, out var package))
-            {
-                EditorGUILayout.LabelField(_selectedPackageKey, EditorStyles.boldLabel);
-                EditorGUILayout.Space(5);
-                EditorGUILayout.HelpBox(package.description, MessageType.None);
-            }
+            if (!_packages.TryGetValue(_selectedPackageKey, out var package)) return;
+            EditorGUILayout.LabelField(_selectedPackageKey, EditorStyles.boldLabel);
+            EditorGUILayout.Space(5);
+            EditorGUILayout.HelpBox(package.description, MessageType.None);
         }
 
         private void DrawBottomControls()
@@ -208,7 +210,7 @@ namespace InfiniteCanvas.Utilities.Editor
             // Apply pending changes
             if (_pendingChanges.Count > 0)
             {
-                foreach (var change in _pendingChanges)
+                foreach (KeyValuePair<string, bool> change in _pendingChanges)
                     if (_packages.ContainsKey(change.Key))
                         _packages[change.Key] = (
                             _packages[change.Key].url, _packages[change.Key].description, change.Value);
@@ -220,8 +222,7 @@ namespace InfiniteCanvas.Utilities.Editor
             if (GUILayout.Button("Add Selected Packages"))
                 InstallSelectedPackages();
 
-            GUI.enabled = true;
-
+            // GUI.enabled = true;
             if (!_isInstalling) return;
             EditorGUILayout.Space(5);
             EditorGUILayout.HelpBox("Installing packages... Please wait.", MessageType.Info);
@@ -240,11 +241,9 @@ namespace InfiniteCanvas.Utilities.Editor
         private void InstallSelectedPackages()
         {
             _installationQueue.Clear();
-            var selectedPackages = _packages.Where(p => p.Value.selected).ToList();
-            foreach (var (_, (url, _, _)) in selectedPackages)
-            {
-                _installationQueue.Enqueue(url);
-            }
+            List<KeyValuePair<string, (string url, string description, bool selected)>> selectedPackages =
+                _packages.Where(p => p.Value.selected).ToList();
+            foreach (var (_, (url, _, _)) in selectedPackages) _installationQueue.Enqueue(url);
 
             if (_installationQueue.Count <= 0) return;
             Debug.Log($"Installing {string.Join(", ", selectedPackages.Select(p => p.Key))}");
