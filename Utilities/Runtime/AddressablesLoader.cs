@@ -65,6 +65,41 @@ namespace InfiniteCanvas.Utilities
         }
 
         /// <summary>
+        /// Asynchronously loads and returns an asset of type T from the Addressables system.
+        /// </summary>
+        /// <typeparam name="T">The type of asset to load</typeparam>
+        /// <param name="key">The addressable key for the asset to load</param>
+        /// <returns>The loaded asset of type T, or null if loading failed</returns>
+        /// <remarks>
+        /// This method will first check the cache before attempting to load from Addressables.
+        /// 
+        /// Related Documentation:
+        /// - LoadAssetAsync: https://docs.unity3d.com/Packages/com.unity.addressables@latest/index.html?subfolder=/manual/LoadingAddressableAssets.html
+        /// </remarks>
+        public static async Task<T> GetAssetAsync<T>(string key) where T : class
+        {
+            // Check if we already have a handle cached
+            if (_handleCache.TryGetValue(key, out AsyncOperationHandle handle))
+            {
+                return handle.Result as T;
+            }
+
+            // Create new load operation
+            var op = Addressables.LoadAssetAsync<T>(key);
+            await op.Task;
+
+            if (op.Status != AsyncOperationStatus.Succeeded || op.Result == null)
+            {
+                Debug.LogError($"[AddressablesLoader] Failed to load asset of type {typeof(T)} with key: {key}");
+                op.Release();
+                return null;
+            }
+
+            _handleCache[key] = op;
+            return op.Result;
+        }
+
+        /// <summary>
         /// Preloads multiple assets of type T into the cache using multithreaded loading.
         /// </summary>
         /// <typeparam name="T">The type of assets to preload</typeparam>

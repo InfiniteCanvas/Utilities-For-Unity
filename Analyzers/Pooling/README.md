@@ -12,22 +12,6 @@ A source generator package that automatically adds object pooling functionality 
 - Zero reflection overhead at runtime
 - Thread-safe pool implementation using Unity's ObjectPool<T>
 
-## Installation
-
-### Via Unity Package Manager
-1. Open the Package Manager window in Unity
-2. Click the + button and select "Add package from git URL"
-3. Enter: `https://github.com/InfiniteCanvas/Unity-Utilities.git`
-
-### Via manifest.json
-Add this line to your `manifest.json` under the dependencies section:
-```json
-{
-  "dependencies": {
-    "io.infinitecanvas.unityutilities": "https://github.com/InfiniteCanvas/Unity-Utilities.git"
-  }
-}
-```
 
 ## Usage
 
@@ -108,19 +92,3 @@ Each marked class gets these static methods:
 - Classes must be marked as `partial`
 - Source generation (with this source generator) requires Unity 6+
 - Custom actions must be valid C# expressions as strings
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For issues, questions, or contributions, please visit the [GitHub repository](https://github.com/yourusername/unity-poolable).

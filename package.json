@@ -1,6 +1,6 @@
 {
     "name": "io.infinitecanvas.unityutilities",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "displayName": "Unity Utilities",
     "description": "Utilities for Unity",
     "unity": "6000.1",
@@ -9,6 +9,6 @@
         "name": "Infinite Canvas"
     },
     "dependencies": {
-        "com.unity.addressables" : "2.2.2"
+        "com.unity.addressables" : "^2.2.2"
     }
 }
