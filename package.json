@@ -7,5 +7,8 @@
     "license": "MIT",
     "author": {
         "name": "Infinite Canvas"
+    },
+    "dependencies": {
+        "com.unity.addressables" : "2.2.2"
     }
 }
