@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "displayName": "Unity Utilities",
     "description": "Utilities for Unity",
-    "unity": "6000.0.1",
+    "unity": "6000.1",
     "license": "MIT",
     "author": {
         "name": "Infinite Canvas"
