@@ -1,0 +1,10 @@
+{
+    "name": "io.infinitecanvas.unityutilities",
+    "version": "0.0.1",
+    "displayName": "Unity Utilities",
+    "description": "Utilities for Unity",
+    "unity": "2021.3",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/InfiniteCanvas"
+    }
+}
