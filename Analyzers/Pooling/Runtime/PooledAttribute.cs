@@ -1,6 +1,6 @@
 using System;
 
-namespace Analyzers.Pooling.Runtime
+namespace InfiniteCanvas.Pooling
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class PooledAttribute : Attribute
