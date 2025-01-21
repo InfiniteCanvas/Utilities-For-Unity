@@ -83,10 +83,6 @@ Each marked class gets these static methods:
 - Compile-time code generation
 - Safe pool implementation using Unity's built-in solution
 
-## Requirements
-
-- Unity 6000.0.1 or later
-
 ## Known Limitations
 
 - Classes must be marked as `partial`
