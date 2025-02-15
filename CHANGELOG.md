@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1] - 2025-02-15
+### Added
+- extensions for generating random numbers from Unity.Mathematics number structs
+
+### Changed
+- changed **RandomsTo** -> **RandomsBetween** for more clarity, since it uses the first parameter as the **amount**
+- changed IntExtensions to NumberExtensions
+
 ## [1.0.0] - 2025-02-15
 
 ### Added
