@@ -9,7 +9,7 @@ namespace InfiniteCanvas.Utilities
          if (trigger) // do stuff
          ```
          but I like the explicit check better for readability; it's also inherently threadsafe like this
-        */ 
+        */
         private int _flag;
 
         public bool Fire => IsPrimed();

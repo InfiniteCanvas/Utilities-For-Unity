@@ -13,16 +13,16 @@ namespace InfiniteCanvas.Utilities
     [Serializable]
     public class RingBufferSafe<T> : IEnumerable<T>
     {
-        private T[] _buffer;
+        private readonly object _syncRoot = new();
+        private          T[]    _buffer;
+        private          int    _count;
 
         private int _head;
 
-        private int _tail;
-
         // I dislike throwing, but I still put it in just in case
-        private          bool   _returnDefault;
-        private readonly object _syncRoot = new();
-        private          int    _count;
+        private bool _returnDefault;
+
+        private int _tail;
 
         /// <summary>
         ///     Constructor. The capacity provided is rounded up to the next power of 2.
@@ -41,11 +41,17 @@ namespace InfiniteCanvas.Utilities
         {
             get
             {
-                lock (_syncRoot) return _count;
+                lock (_syncRoot)
+                {
+                    return _count;
+                }
             }
             private set
             {
-                lock (_syncRoot) _count = value;
+                lock (_syncRoot)
+                {
+                    _count = value;
+                }
             }
         }
 
@@ -77,10 +83,7 @@ namespace InfiniteCanvas.Utilities
             lock (_syncRoot)
             {
                 copy = new T[_count];
-                for (var i = 0; i < _count; i++)
-                {
-                    copy[i] = _buffer[WrapIndex(_head + i)];
-                }
+                for (var i = 0; i < _count; i++) copy[i] = _buffer[WrapIndex(_head + i)];
             }
 
             foreach (var item in copy) yield return item;
@@ -136,10 +139,8 @@ namespace InfiniteCanvas.Utilities
             lock (_syncRoot)
             {
                 if (_count == 0)
-                {
                     // instead of throwing, it might be waiting on another thread to enqueue an item
                     Monitor.Wait(_syncRoot);
-                }
 
                 var item = _buffer[_head];
                 _buffer[_head] = default;

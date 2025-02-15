@@ -2,6 +2,10 @@
 
 - [Utility Classes](#utility-classes)
   - [Disposable Wrapper](#disposable-wrapper)
+  - [2D Lighting \& Sprite Utilities](#2d-lighting--sprite-utilities)
+    - [ShadowCaster2D Tools](#shadowcaster2d-tools)
+    - [Sprite Outline Configuration](#sprite-outline-configuration)
+  - [Package Installer Utility](#package-installer-utility)
   - [RingBuffer](#ringbuffer)
   - [RingBufferSafe](#ringbuffersafe)
   - [Trigger](#trigger)
@@ -18,14 +22,14 @@
     - [`PreloadAssetsAsync<T>`](#preloadassetsasynct)
     - [`ReleaseAsset`](#releaseasset)
     - [`ClearCache`](#clearcache)
-  - [Extensions](#extensions)
-    - [Generic Extensions](#generic-extensions)
-    - [Mathematics Extensions](#mathematics-extensions)
-    - [Integer Extensions](#integer-extensions)
-    - [Boolean Extensions](#boolean-extensions)
-    - [Unity Pool Extensions](#unity-pool-extensions)
-    - [Vector2 Extensions](#vector2-extensions)
-    - [Vector2Int Extensions](#vector2int-extensions)
+- [Extensions](#extensions)
+  - [Generic Extensions](#generic-extensions)
+  - [Mathematics Extensions](#mathematics-extensions)
+  - [Integer Extensions](#integer-extensions)
+  - [Boolean Extensions](#boolean-extensions)
+  - [Unity Pool Extensions](#unity-pool-extensions)
+  - [Vector2 Extensions](#vector2-extensions)
+  - [Vector2Int Extensions](#vector2int-extensions)
 
 ## Disposable Wrapper
 
@@ -47,6 +51,65 @@ using (var wrapper = new DisposableWrapper<Resource>(resource, r => r.Cleanup())
 }
 // Upon exiting the using block, the Cleanup method is automatically called on the resource.
 ```
+
+## 2D Lighting & Sprite Utilities
+
+### ShadowCaster2D Tools
+
+**Context menu integration for shadow shape creation:**
+```cs
+[MenuItem("CONTEXT/ShadowCaster2D/Copy Collider Shape")]
+[MenuItem("CONTEXT/ShadowCaster2D/Copy Sprite Shape")]
+```
+**Features:**
+- Convert PolygonCollider2D shapes to ShadowCaster2D paths
+- Generate shadow shapes directly from sprites (sets casting source to ShapeEditor)
+
+**Workflow:**
+1. Right-click any ShadowCaster2D component
+2. Choose between:
+   - **Copy Collider Shape** - Requires PolygonCollider2D on same GameObject
+   - **Copy Sprite Shape** - Requires SpriteRenderer with valid sprite
+
+### Sprite Outline Configuration
+
+**How To Use:**
+1. Create outline settings via Assets > Create > InfiniteCanvas > Settings
+2. Use `Copy Sprite Shape` for dynamic shadow updates
+3. Combine with PolygonCollider2D for physics-accurate shadows
+
+**Key parameters:**
+- `Tolerance`: Outline simplification (0=simplified, 1=precise)
+- `AlphaTolerance`: Transparency threshold (0-255)
+- `HoleDetection`: Automatic recognition of sprite holes
+
+## Package Installer Utility
+
+An editor window that simplifies installation of some Unity packages:
+
+**Access:**
+```
+[MenuItem("InfiniteCanvas/Package Installer")]
+```
+
+**Supported Packages:**
+| Package | Description |
+|---------|-------------|
+| VContainer | DI container with Unity integration |
+| UniTask | Async/await optimization framework |
+| MessagePipe | Pub/Sub messaging system |
+| MasterMemory | Embedded database solution |
+| R3 | Reactive Patterns for Unity |
+
+**Features:**
+- One-click installation of multiple packages
+- That's it ᕙ(⇀‸↼‶)ᕗ
+
+**Usage:**
+1. Open through Unity's top menu
+2. Select desired packages
+3. Click "Add Selected Packages"
+4. Wait for installation completion
 
 ## RingBuffer
 
@@ -199,11 +262,11 @@ public static void ClearCache()
 ```
 Releases all cached assets and clears the cache.
 
-## Extensions
+# Extensions
 
 This section provides additional utility extensions that enhance the functionality of your project by offering helper methods for common operations.
 
-### Generic Extensions
+## Generic Extensions
 
 Provides a helper method for creating a disposable wrapper around objects.
 
@@ -218,7 +281,7 @@ var disposable = myObject.CreateDisposableWrapper(o =>
 });
 ```
 
-### Mathematics Extensions
+## Mathematics Extensions
 
 Offers methods for converting between Unity types, particularly for simplifying color and vector conversions.
 
@@ -237,7 +300,7 @@ Color myColor = new Color(1, 0, 0, 1);
 float4 floatColor = myColor.ToFloat4();
 ```
 
-### Integer Extensions
+## Integer Extensions
 
 Introduces methods to simplify random number generation using integer values.
 
@@ -257,7 +320,7 @@ foreach (var value in 10.RandomsTo(5))
 }
 ```
 
-### Boolean Extensions
+## Boolean Extensions
 
 Simplifies boolean operations by offering straightforward methods to toggle or explicitly set boolean values.
 
@@ -275,7 +338,7 @@ flag.False();  // flag becomes false
 flag.True();   // flag becomes true
 ```
 
-### Unity Pool Extensions
+## Unity Pool Extensions
 
 These extensions offer helper methods to retrieve and release pooled collections using Unity's built-in pool system.
 
@@ -303,7 +366,7 @@ Releases a HashSet back to the pool.
 public static void Release(this HashSet collection) => HashSetPool.Release(collection);
 ```
 
-### Vector2 Extensions
+## Vector2 Extensions
 
 This extension adds additional functionality for Unity's `Vector2` type.
 
@@ -317,7 +380,7 @@ public static float RandomBetween(this in Vector2 v)
 }
 ```
 
-### Vector2Int Extensions
+## Vector2Int Extensions
 
 This extension adds additional functionality for Unity's `Vector2Int` type.
 

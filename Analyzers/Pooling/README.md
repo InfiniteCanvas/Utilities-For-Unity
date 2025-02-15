@@ -33,7 +33,8 @@ Enemy.Release(enemy);
 ### Custom Pool Configuration
 ```csharp
 [Pooled(
-    createAction: "() => Object.Instantiate<Bullet>(Prefabs.Bullet)", //assuming a Prefabs singleton
+    //using the utility class to load an addressable
+    createAction: "() => Object.Instantiate<Bullet>(AddressablesLoader.GetAsset<Bullet>(\"Bullet\"))", 
     getAction: "item => item.gameObject.SetActive(true)",
     returnAction: "item => item.gameObject.SetActive(false)",
     destroyAction: "item => Object.Destroy(item.gameObject)",

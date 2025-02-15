@@ -24,7 +24,11 @@ Add this line to your `manifest.json` under the dependencies section:
 - Unity 6000.0.1 or later
 - Addressables package installed
 
-## [Pooling Utility](./Analyzers/Pooling/README.md)
+## [Utility Classes](./Utilities/README.md)
+
+Classes and extension methods that make life easier in Unity.
+
+## [Pooling](./Analyzers/Pooling/README.md)
 
 Use the [Pooled] attribute on any instantiatable class to add static methods that handles pooling! It uses Unity's own [pooling solution](https://docs.unity3d.com/ScriptReference/Pool.ObjectPool_1.html).
 

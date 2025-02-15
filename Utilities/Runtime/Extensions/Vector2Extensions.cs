@@ -11,6 +11,6 @@ namespace InfiniteCanvas.Utilities.Extensions
         /// <param name="v">x is minInclusive, y is maxExclusive</param>
         /// <returns>A random integer between x(inclusive) and y(exclusive) components of input.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RandomBetween(this in Vector2 v) { return Random.Range(v.x, v.y); }
+        public static float RandomBetween(this in Vector2 v) => Random.Range(v.x, v.y);
     }
 }

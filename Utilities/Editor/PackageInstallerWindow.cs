@@ -116,6 +116,7 @@ namespace InfiniteCanvas.Utilities.Editor
         private          Vector2                  _scrollPosition;
         private          string                   _selectedPackageKey;
 
+    #region Event Functions
 
         private void OnGUI()
         {
@@ -141,6 +142,8 @@ namespace InfiniteCanvas.Utilities.Editor
 
             DrawBottomControls();
         }
+
+    #endregion
 
         private void DrawPackageList()
         {
