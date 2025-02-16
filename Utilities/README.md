@@ -407,32 +407,63 @@ Releases a HashSet back to the pool.
 public static void Release(this HashSet collection) => HashSetPool.Release(collection);
 ```
 
-## Vector2 Extensions
+## Vector Extensions
 
-This extension adds additional functionality for Unity's `Vector2` type.
+This extension adds additional functionality for Unity's `Vector2` and `Vector2Int` type.
 
 **RandomBetween**  
-Returns a random number between the x (inclusive) and y (exclusive) components of a `Vector2`.
+Returns a random number between the x (minInclusive) and y (maxExclusive) components.
 
 ```cs
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public static float RandomBetween(this in Vector2 v)
-{
-    return Random.Range(v.x, v.y);
-}
+var randomFloat = Vector2.up.RandomBetween();
+var randomInt = Vector2Int.up.RandomBetween();
 ```
 
-## Vector2Int Extensions
+### View Cone Checks
+**Vector3**
+<br>
+Checks if a 3D point is within a view cone defined by direction, distance, and angles.
 
-This extension adds additional functionality for Unity's `Vector2Int` type.
+```
 
-**RandomBetween**  
-Returns a random integer between the x (inclusive) and y (exclusive) components of a `Vector2Int`.
+public static bool CouldSee(this in Vector3 origin,
+in Vector3 viewDirection,
+in Vector3 target,
+in float viewDistance,
+in float horizontalAngle,
+in float verticalAngle)
 
-```cs
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public static int RandomBetween(this in Vector2Int v)
-{
-    return Random.Range(v.x, v.y);
-}
+**Example:**
+
+bool couldSee = transform.position.CouldSee(
+transform.forward,
+enemyPosition,
+maxViewDistance: 20f,
+horizontalFOV: 45f,
+verticalFOV: 30f
+);
+
+```
+
+**Vector2**
+<br>
+2D version with angular and distance constraints.
+
+```
+
+public static bool CouldSee(this in Vector2 origin,
+in Vector2 viewDirection,
+in Vector2 target,
+in float viewDistance,
+in float viewAngle)
+
+**Example:**
+
+bool inSight = playerPosition.CouldSee(
+Vector2.right,
+enemyPosition,
+viewDistance: 15f,
+viewAngle: 60f
+);
+
 ```

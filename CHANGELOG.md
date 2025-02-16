@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.0] - 2025-02-16
+
+### Added
+- **Vector Utilities**
+  - `CouldSee` extension methods for Vector3 and Vector2
+  - Relevant docs
+
+### Changed
+- added `in` keywords for number extensions
+
 ## [1.0.1] - 2025-02-15
 ### Added
 - extensions for generating random numbers from Unity.Mathematics number structs

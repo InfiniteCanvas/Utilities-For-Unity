@@ -17,7 +17,7 @@ namespace InfiniteCanvas.Utilities.Extensions
         /// <param name="inclusiveMin">Included lowest random possible number</param>
         /// <returns>Random number between [<see cref="inclusiveMin" />...<see cref="exclusiveMax" />]</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int RandomTo(this int exclusiveMax, int inclusiveMin = 0)
+        public static int RandomTo(this in int exclusiveMax, in int inclusiveMin = 0)
             => _random.NextInt(inclusiveMin, exclusiveMax);
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace InfiniteCanvas.Utilities.Extensions
         /// <param name="inclusiveMin">Included lowest random possible number</param>
         /// <returns>Random number between [<see cref="inclusiveMin" />...<see cref="exclusiveMax" />]</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int2 RandomTo(this int2 exclusiveMax, int2 inclusiveMin = default)
+        public static int2 RandomTo(this in int2 exclusiveMax, in int2 inclusiveMin = default)
             => _random.NextInt2(inclusiveMin, exclusiveMax);
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace InfiniteCanvas.Utilities.Extensions
         /// <param name="inclusiveMin">Included lowest random possible number</param>
         /// <returns>Random number between [<see cref="inclusiveMin" />...<see cref="exclusiveMax" />]</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int3 RandomTo(this int3 exclusiveMax, int3 inclusiveMin = default)
+        public static int3 RandomTo(this in int3 exclusiveMax, in int3 inclusiveMin = default)
             => _random.NextInt3(inclusiveMin, exclusiveMax);
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace InfiniteCanvas.Utilities.Extensions
         /// <param name="inclusiveMin">Included lowest random possible number</param>
         /// <returns>Random number between [<see cref="inclusiveMin" />...<see cref="exclusiveMax" />]</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int4 RandomTo(this int4 exclusiveMax, int4 inclusiveMin = default)
+        public static int4 RandomTo(this in int4 exclusiveMax, in int4 inclusiveMin = default)
             => _random.NextInt4(inclusiveMin, exclusiveMax);
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace InfiniteCanvas.Utilities.Extensions
         /// <param name="inclusiveMin">Included lowest random possible number</param>
         /// <returns>Random number between [<see cref="inclusiveMin" />...<see cref="exclusiveMax" />]</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RandomTo(this float exclusiveMax, float inclusiveMin = 0)
+        public static float RandomTo(this in float exclusiveMax, in float inclusiveMin = 0)
             => _random.NextFloat(inclusiveMin, exclusiveMax);
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace InfiniteCanvas.Utilities.Extensions
         /// <param name="inclusiveMin">Included lowest random possible number</param>
         /// <returns>Random number between [<see cref="inclusiveMin" />...<see cref="exclusiveMax" />]</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float2 RandomTo(this float2 exclusiveMax, float2 inclusiveMin = default)
+        public static float2 RandomTo(this in float2 exclusiveMax, in float2 inclusiveMin = default)
             => _random.NextFloat2(inclusiveMin, exclusiveMax);
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace InfiniteCanvas.Utilities.Extensions
         /// <param name="inclusiveMin">Included lowest random possible number</param>
         /// <returns>Random number between [<see cref="inclusiveMin" />...<see cref="exclusiveMax" />]</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float3 RandomTo(this float3 exclusiveMax, float3 inclusiveMin = default)
+        public static float3 RandomTo(this in float3 exclusiveMax, in float3 inclusiveMin = default)
             => _random.NextFloat3(inclusiveMin, exclusiveMax);
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace InfiniteCanvas.Utilities.Extensions
         /// <param name="inclusiveMin">Included lowest random possible number</param>
         /// <returns>Random number between [<see cref="inclusiveMin" />...<see cref="exclusiveMax" />]</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float4 RandomTo(this float4 exclusiveMax, float4 inclusiveMin = default)
+        public static float4 RandomTo(this in float4 exclusiveMax, in float4 inclusiveMin = default)
             => _random.NextFloat4(inclusiveMin, exclusiveMax);
 
         /// <summary>
