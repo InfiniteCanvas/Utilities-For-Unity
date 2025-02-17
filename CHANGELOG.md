@@ -1,7 +1,19 @@
 # Changelog
 
-## [1.1.0] - 2025-02-16
+## [1.1.1] - 2025-02-16
+### Changed
+- root name spaces in .asmdef files
+- bool extensions now return the result of the operation, allowing you to do things like this:
+  ```csharp
+  var a = false;
+  if (a.Toggle()) //true
+  {
+      // do something
+  }
+  ```
+  - while it changes the passed variable, it returns a value copy for evaluation
 
+## [1.1.0] - 2025-02-16
 ### Added
 - **Vector Utilities**
   - `CouldSee` extension methods for Vector3 and Vector2
@@ -19,7 +31,6 @@
 - changed IntExtensions to NumberExtensions
 
 ## [1.0.0] - 2025-02-15
-
 ### Added
 - **Core Utilities:**
   - `DisposableWrapper` for custom resource cleanup

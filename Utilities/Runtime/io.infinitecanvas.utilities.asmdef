@@ -1,6 +1,6 @@
 {
   "name": "io.infinitecanvas.utilities",
-  "rootNamespace": "",
+  "rootNamespace": "InfiniteCanvas.Utilities",
   "references": [
     "Unity.Addressables",
     "Unity.ResourceManager",
