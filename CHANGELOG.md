@@ -1,6 +1,9 @@
 # Changelog
 
 ## [1.2.0] - 2025-02-19
+### Added
+- AddressablesLabelUtility can add addressable labels to assets
+  - filter for assets by type and some other parameters using unity's search
 ### Changed
 - AddressablesLoader reworked now works better and more consistent by using ResourceLocations
 
