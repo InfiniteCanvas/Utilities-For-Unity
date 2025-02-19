@@ -14,6 +14,20 @@ namespace InfiniteCanvas.Utilities.Editor
         private readonly Dictionary<string, (string url, string description, bool selected)> _packages = new()
         {
             {
+                "Health And Damage Systems", (
+                    "https://github.com/InfiniteCanvas/health-and-damage.git",
+                    "Customizable health and damage systems with modifiers.\n\n"
+                  + "Features:\n"
+                  + "• Fast performance with structs and jobs\n"
+                  + "• Configuration with MonoBehaviours and ScriptableObjects\n"
+                  + "• Integrates with VContainer and MessagePipe\n"
+                  + "• Hook your own effects to the system\n"
+                  + "• Sends messages for stages of doing damage and healing for custom hooks\n\n"
+                  + "Repository: https://github.com/InfiniteCanvas/health-and-damage",
+                    false
+                )
+            },
+            {
                 "VContainer", (
                     "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer",
                     "Lightweight DI (Dependency Injection) container for Unity.\n\n"

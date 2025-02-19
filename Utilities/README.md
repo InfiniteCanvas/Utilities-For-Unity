@@ -2,6 +2,8 @@
 
 - [Utility Classes](#utility-classes)
   - [Disposable Wrapper](#disposable-wrapper)
+  - [Addressables Loader](#addressables-loader)
+  - [Addressables Label Utility (Editor)](#addressables-label-utility-editor)
   - [2D Lighting \& Sprite Utilities](#2d-lighting--sprite-utilities)
     - [ShadowCaster2D Tools](#shadowcaster2d-tools)
     - [Sprite Outline Configuration](#sprite-outline-configuration)
@@ -9,27 +11,14 @@
   - [RingBuffer](#ringbuffer)
   - [RingBufferSafe](#ringbuffersafe)
   - [Trigger](#trigger)
-  - [Unity Addressables Loader](#unity-addressables-loader)
-    - [Features](#features)
-    - [Usage](#usage)
-    - [Basic Asset Loading](#basic-asset-loading)
-    - [Async Loading with Task](#async-loading-with-task)
-      - [Cleanup](#cleanup)
-    - [Best Practices](#best-practices)
-    - [API Reference](#api-reference)
-    - [`GetAsset<T>`](#getassett)
-    - [`GetAssetAsync<T>`](#getassetasynct)
-    - [`PreloadAssetsAsync<T>`](#preloadassetsasynct)
-    - [`ReleaseAsset`](#releaseasset)
-    - [`ClearCache`](#clearcache)
 - [Extensions](#extensions)
   - [Generic Extensions](#generic-extensions)
   - [Mathematics Extensions](#mathematics-extensions)
   - [Number Extensions](#number-extensions)
   - [Boolean Extensions](#boolean-extensions)
   - [Unity Pool Extensions](#unity-pool-extensions)
-  - [Vector2 Extensions](#vector2-extensions)
-  - [Vector2Int Extensions](#vector2int-extensions)
+  - [Vector Extensions](#vector-extensions)
+    - [View Cone Checks](#view-cone-checks)
 
 ## Disposable Wrapper
 
@@ -54,6 +43,69 @@ using (var wrapper = new DisposableWrapper<Resource>(resource, r => r.Cleanup())
 }
 // Upon exiting the using block, the Cleanup method is automatically called on the resource.
 ```
+
+## Addressables Loader
+
+**Key Features:**
+- Loading (sync/async) with handle caching
+- Batch preloading into cache
+- Bulk releasing from cache
+- Bulk operations use Addressables.LoadResourceLocationsAsync to get primary keys
+
+**Usage:**
+```cs
+// Synchronous load
+var weaponPrefab = AddressablesLoader.GetAsset("Weapons/LaserRifle");
+
+// Async load
+var asyncMaterial = await AddressablesLoader.GetAssetAsync("Materials/Holographic");
+
+// Batch preloading
+await AddressablesLoader.PreloadAssets(
+    Addressables.MergeMode.Intersection, 
+    "Enemies", "HQ_Textures"
+);
+
+// Release resources
+AddressablesLoader.ReleaseAssets(callback: (success, key) => 
+{
+    Debug.Log($"Released[{success}] - {key}");
+}, "Weapons", "Enemies");
+```
+
+**Performance Notes:**
+- `GetAsset()` uses `WaitForCompletion` - avoid in performance-critical paths
+- Preloading batches reduce runtime hitches
+- Cache checking happens before Addressables API calls
+  - `GetAllAssets` uses `WaitForCompletion` to get resource location, then uses `GetAsset` to load assets not in cache
+
+## Addressables Label Utility (Editor)
+
+**Workflow:**
+1. Open via `Window > Asset Management > Addressables > Label By Type`
+2. Select target type
+3. Specify label and target Addressables group
+4. Click "Apply Labels"
+
+**Features:**
+- Type filtering with regex support
+- Automatic label creation
+- Group assignment validation
+- Progress tracking through console logs
+- Assembly-optimized type discovery
+
+**Usage Example:**
+```cs
+// Batch label all WeaponConfig assets
+LabelAssetsOfType(typeof(WeaponConfig), 
+    "CombatData", 
+    "WeaponsGroup"
+);
+```
+
+**Requirements:**
+- Addressables package
+- Existing Addressables group configuration
 
 ## 2D Lighting & Sprite Utilities
 
@@ -170,126 +222,6 @@ if (trigger.Fire)
     Debug.Log("Trigger fired successfully!");
 }
 ```
-
-## Unity Addressables Loader
-
-A utility class for managing Unity Addressables with synchronous and asynchronous loading methods. This loader provides
-caching, handle management, and preloading.
-
-### Features
-
-- Wrappers to load synchronously and asynchronously
-- Automatic handle caching
-- Preload into cache
-
-### Usage
-
-### Basic Asset Loading
-
-```csharp
-// Synchronously load a GameObject
-GameObject prefab = AddressablesLoader.GetAsset<GameObject>("PrefabKey");
-if (prefab != null)
-{
-    Instantiate(prefab);
-}
-
-// Load a material
-Material material = AddressablesLoader.GetAsset<Material>("MaterialKey");
-```
-
-### Async Loading with Task
-
-```csharp
-public class GameManager : MonoBehaviour
-{
-    private async Task LoadGameAssets()
-    {
-        try
-        {
-            await AddressablesLoader.PreloadAssetsAsync<GameObject>(
-                "PlayerPrefab",
-                "EnemyPrefab",
-                "WeaponPrefab"
-            );
-            Debug.Log("All assets loaded successfully!");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to load assets: {e}");
-        }
-    }
-}
-```
-
-#### Cleanup
-
-```csharp
-// Release a single asset
-AddressablesLoader.ReleaseAsset("PlayerPrefab");
-
-// Clear all cached assets
-AddressablesLoader.ClearCache();
-```
-
-### Best Practices
-
-1. **Memory Management**
-    - Call `ClearCache()` when transitioning between scenes (or use `ReleaseAsset(address)` a bunch if you want to reuse
-      assets)
-    - Release individual assets when no longer needed
-    - Use preloading during loading screens or scene transitions
-
-2. **Performance**
-    - Use async loading when possible to avoid frame drops
-    - Preload assets in batches rather than individual loads
-    - Consider using the async Task-based approach for modern Unity versions
-
-3. **Error Handling**
-    - Always check for null when getting assets
-    - Monitor logs for loading failures
-
-### API Reference
-
-### `GetAsset<T>`
-
-```csharp
-public static T GetAsset<T>(string key) where T : class
-```
-
-Synchronously loads and returns an asset from the cache or Addressables system.
-
-### `GetAssetAsync<T>`
-
-```csharp
-public static async Task<T> GetAsset<T>(string key) where T : class
-```
-
-Asynchronously loads and returns an asset from the cache or Addressables system.
-
-### `PreloadAssetsAsync<T>`
-
-```csharp
-public static Task PreloadAssetsAsync<T>(params string[] keys) where T : class
-```
-
-Asynchronously preloads multiple assets using Task-based async/await pattern.
-
-### `ReleaseAsset`
-
-```csharp
-public static bool ReleaseAsset(string key)
-```
-
-Releases a specific asset from the cache.
-
-### `ClearCache`
-
-```csharp
-public static void ClearCache()
-```
-
-Releases all cached assets and clears the cache.
 
 # Extensions
 

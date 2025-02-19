@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.0] - 2025-02-19
+### Changed
+- AddressablesLoader reworked now works better and more consistent by using ResourceLocations
+
 ## [1.1.1] - 2025-02-16
 ### Changed
 - root name spaces in .asmdef files

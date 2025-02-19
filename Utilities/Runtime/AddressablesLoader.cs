@@ -9,11 +9,11 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 namespace InfiniteCanvas.Utilities
 {
     /// <summary>
-    ///     Provides synchronous loading capabilities for Addressable assets with handle-based caching.
+    ///     Provides sync and async loading capabilities for Addressable assets with handle-based caching.
     /// </summary>
     /// <remarks>
     ///     This class simplifies the process of loading Addressable assets by providing synchronous methods
-    ///     and automatic handle caching for proper memory management.
+    ///     and automatic handle caching.
     ///     Related Unity Documentation:
     ///     - Addressables System: https://docs.unity3d.com/Packages/com.unity.addressables@latest
     ///     - Synchronous Addressables:
@@ -44,11 +44,9 @@ namespace InfiniteCanvas.Utilities
         /// </remarks>
         public static T GetAsset<T>(string key) where T : class
         {
-            // Check if we already have a handle cached
             if (_handleCache.TryGetValue(key, out var handle)) return handle.Result as T;
 
-            // Create new load operation
-            AsyncOperationHandle<T> op = Addressables.LoadAssetAsync<T>(key);
+            var op = Addressables.LoadAssetAsync<T>(key);
             op.WaitForCompletion();
 
             if (op.Status != AsyncOperationStatus.Succeeded || op.Result == null)
@@ -76,11 +74,9 @@ namespace InfiniteCanvas.Utilities
         /// </remarks>
         public static async Task<T> GetAssetAsync<T>(string key) where T : class
         {
-            // Check if we already have a handle cached
             if (_handleCache.TryGetValue(key, out var handle)) return handle.Result as T;
 
-            // Create new load operation
-            AsyncOperationHandle<T> op = Addressables.LoadAssetAsync<T>(key);
+            var op = Addressables.LoadAssetAsync<T>(key);
             await op.Task;
 
             if (op.Status != AsyncOperationStatus.Succeeded || op.Result == null)
@@ -95,49 +91,89 @@ namespace InfiniteCanvas.Utilities
         }
 
         /// <summary>
-        ///     Preloads multiple assets of type T into the cache using multithreaded loading.
+        ///     Loads all assets by keys/labels using
+        ///     <see
+        ///         cref="Addressables.LoadResourceLocationsAsync(System.Collections.IEnumerable, Addressables.MergeMode, System.Type)" />
+        ///     .
+        /// </summary>
+        /// <param name="mergeMode">The mode for merging the results of the found locations.</param>
+        /// <param name="keys">Keys/labels to find resource locations</param>
+        /// <typeparam name="T">Type of asset to load</typeparam>
+        /// <returns>List of matching assets</returns>
+        /// <remarks>
+        ///     Hits the cache first, then loads from Addressables if it misses.
+        /// </remarks>
+        public static IEnumerable<T> GetAllAssets<T>(Addressables.MergeMode mergeMode, params string[] keys)
+            where T : class
+        {
+            var handle = Addressables.LoadResourceLocationsAsync(keys, mergeMode, typeof(T));
+            handle.WaitForCompletion();
+            foreach (var resource in handle.Result) yield return GetAsset<T>(resource.PrimaryKey);
+        }
+
+        /// <summary>
+        ///     Loads all assets by keys/labels using
+        ///     <see
+        ///         cref="Addressables.LoadResourceLocationsAsync(System.Collections.IEnumerable, Addressables.MergeMode, System.Type)" />
+        ///     .
+        /// </summary>
+        /// <param name="mergeMode">The mode for merging the results of the found locations.</param>
+        /// <param name="keys">Keys/labels to find resource locations</param>
+        /// <typeparam name="T">Type of asset to load</typeparam>
+        /// <returns>List of matching assets</returns>
+        /// <remarks>
+        ///     Hits the cache first, then loads from Addressables if it misses.
+        /// </remarks>
+        public static async IAsyncEnumerable<T> GetAllAssetsAsync<T>(Addressables.MergeMode mergeMode,
+                                                                     params string[]        keys)
+            where T : class
+        {
+            var resources = await Addressables.LoadResourceLocationsAsync(keys, mergeMode, typeof(T)).Task;
+            foreach (var resource in resources) yield return await GetAssetAsync<T>(resource.PrimaryKey);
+        }
+
+        /// <summary>
+        ///     Preloads multiple assets of type T into the cache using async loading.
+        ///     Uses to this method to find assets by key/label <see cref="Addressables.LoadResourceLocationsAsync(System.Collections.IEnumerable, Addressables.MergeMode, System.Type)" />
         /// </summary>
         /// <typeparam name="T">The type of assets to preload</typeparam>
-        /// <param name="keys">Array of addressable keys to preload</param>
-        /// <remarks>
-        ///     Uses LoadAssetsAsync for parallel loading of multiple assets, improving performance
-        ///     compared to loading assets individually.
-        ///     Related Documentation:
-        ///     - Loading Multiple Assets:
-        ///     https://docs.unity3d.com/Packages/com.unity.addressables@latest/index.html?subfolder=/manual/LoadingAddressableAssets.html#loading-multiple-assets
-        /// </remarks>
-        public static async Task PreloadAssets<T>(Action<T> callback = null, params string[] keys) where T : class
+        /// <param name="mergeMode">The mode for merging the results of the found locations.</param>
+        /// <param name="keys">Array of addressable keys or labels to preload</param>
+        /// <remarks>You can use <see cref="Task{TResult}.Wait()" /> to wait in sync, but it's not recommended.</remarks>
+        public static async Task PreloadAssets<T>(Addressables.MergeMode mergeMode, params string[] keys)
+            where T : class
         {
-            // Filter out keys that are already cached
-            List<string> keysToLoad = keys.Where(key => !_handleCache.ContainsKey(key)).ToList();
-            if (!keysToLoad.Any()) return;
+            var resourceLocations = await Addressables
+                                         .LoadResourceLocationsAsync(keys,
+                                                                     mergeMode,
+                                                                     typeof(T))
+                                         .Task;
+            var resources = resourceLocations.Where(key => !_handleCache.ContainsKey(key.PrimaryKey)).ToList();
+            if (!resources.Any()) return;
 
-            // Load all assets in parallel
             var tasks = new List<Task>();
-            foreach (var key in keysToLoad)
+            foreach (var key in resources)
             {
-                AsyncOperationHandle<T> op = Addressables.LoadAssetAsync<T>(key);
-                _handleCache[key] = op;
+                var op = Addressables.LoadAssetAsync<T>(key);
+                _handleCache[key.PrimaryKey] = op;
                 tasks.Add(op.Task);
             }
 
             await Task.WhenAll(tasks);
 
-            foreach (var key in keysToLoad)
+            foreach (var key in resources)
             {
-                var op = _handleCache[key];
-                if (op.Status != AsyncOperationStatus.Succeeded)
-                {
-                    Debug.LogError($"[AddressablesLoader] Failed to preload {key}");
-                    ReleaseAsset(key);
-                }
+                var op = _handleCache[key.PrimaryKey];
+                if (op.Status == AsyncOperationStatus.Succeeded) continue;
+                Debug.LogError($"[AddressablesLoader] Failed to preload {key}");
+                ReleaseAsset(key.PrimaryKey);
             }
         }
 
         /// <summary>
         ///     Releases a specific asset from the cache.
         /// </summary>
-        /// <param name="key">The addressable key of the asset to release</param>
+        /// <param name="key">The address of the asset to release</param>
         /// <returns>True if the asset was found and released, false otherwise</returns>
         public static bool ReleaseAsset(string key)
         {
@@ -148,15 +184,30 @@ namespace InfiniteCanvas.Utilities
         }
 
         /// <summary>
+        ///     Releases assets from the cache by keys/labels using
+        ///     <see
+        ///         cref="Addressables.LoadResourceLocationsAsync(System.Collections.IEnumerable, Addressables.MergeMode, System.Type)" />
+        ///     .
+        /// </summary>
+        /// <param name="mergeMode">The mode for merging the results of the found locations.</param>
+        /// <param name="callback">Calls with True if the asset was found and released, false otherwise</param>
+        /// <param name="keys">The labels of assets to be released</param>
+        /// <remarks>This method will block the thread!</remarks>
+        public static void ReleaseAssets(Addressables.MergeMode mergeMode = Addressables.MergeMode.Union,
+                                         Action<bool, string>   callback  = null,
+                                         params string[]        keys)
+        {
+            var resourceLocations = Addressables.LoadResourceLocationsAsync(keys, mergeMode).WaitForCompletion();
+            foreach (var resourceLocation in resourceLocations)
+            {
+                var key = resourceLocation.PrimaryKey;
+                callback?.Invoke(ReleaseAsset(key), key);
+            }
+        }
+
+        /// <summary>
         ///     Clears the cache and releases all loaded assets back to the Addressables system.
         /// </summary>
-        /// <remarks>
-        ///     Call this method during scene transitions or when assets are no longer needed
-        ///     to prevent memory leaks.
-        ///     Related Documentation:
-        ///     - Release:
-        ///     https://docs.unity3d.com/Packages/com.unity.addressables@latest/index.html?subfolder=/api/UnityEngine.AddressableAssets.Addressables.Release.html
-        /// </remarks>
         public static void ClearCache()
         {
             foreach (var handle in _handleCache.Values) handle.Release();
