@@ -6,7 +6,8 @@
     "Unity.ResourceManager",
     "Unity.Burst",
     "Unity.Mathematics",
-    "Unity.Mathematics.Extensions"
+    "Unity.Mathematics.Extensions",
+    "Unity.Collections"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

@@ -3,6 +3,11 @@
 ## [1.3.0] - 2025-02-20
 ### Added
 - AddressablesLabelUtility now has a preview of affected assets
+- `GetValueOrDefault` extension for NativeHashMap
+
+### Fixed
+- PoolExtensions now correctly return a collection containing the referenced item used for the extensions method
+- Wording in AddressablesLabelUtility
 
 ## [1.2.0] - 2025-02-19
 

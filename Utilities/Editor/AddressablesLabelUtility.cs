@@ -293,7 +293,7 @@ namespace InfiniteCanvas.Utilities.Editor
                 }
             }
 
-            Debug.Log($"Labeled {processed} {type.Name} assets. {skipped} already had label.");
+            Debug.Log($"Labeled {processed} {type.Name} assets. {skipped} already had that label.");
             AssetDatabase.SaveAssets();
         }
     }
