@@ -1,0 +1,36 @@
+﻿.container {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.header {
+    font-size: 18px;
+    -unity-font-style: bold;
+    margin-bottom: 15px;
+}
+
+.section {
+    margin-bottom: 20px;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-bottom-color: #404040;
+    padding-bottom: 15px;
+}
+
+.subsection-header {
+    -unity-font-style: bold;
+    margin-bottom: 5px;
+}
+
+.type-display {
+    background-color: #2d2d2d;
+    padding: 5px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.apply-button {
+    margin-top: 20px;
+    align-self: flex-end;
+    min-width: 120px;
+}
