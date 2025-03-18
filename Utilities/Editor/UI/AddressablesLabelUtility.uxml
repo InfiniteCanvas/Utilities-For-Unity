@@ -1,19 +1,19 @@
 ﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:VisualElement class="container">
-        <ui:Label text="Addressables Labeling" class="header" />
+        <ui:Label text="Addressables Labeling" class="header"/>
 
         <ui:VisualElement class="section">
-            <ui:Label text="Selected Type:" class="subsection-header" />
-            <ui:VisualElement name="type-selection" class="type-display" />
-            <ui:Button name="select-type-button" text="Select Type" />
+            <ui:Label text="Selected Type:" class="subsection-header"/>
+            <ui:VisualElement name="type-selection" class="type-display"/>
+            <ui:Button name="select-type-button" text="Select Type"/>
         </ui:VisualElement>
 
         <ui:VisualElement class="section">
-            <ui:TextField name="target-label" label="Target Label" />
-            <ui:TextField name="target-group" label="Target Group" />
-            <ui:TextField name="custom-filter" label="Additional Filter" />
+            <ui:TextField name="target-label" label="Target Label"/>
+            <ui:TextField name="target-group" label="Target Group"/>
+            <ui:TextField name="custom-filter" label="Additional Filter"/>
         </ui:VisualElement>
 
-        <ui:Button name="apply-button" text="Apply Labels" class="apply-button" />
+        <ui:Button name="apply-button" text="Apply Labels" class="apply-button"/>
     </ui:VisualElement>
 </ui:UXML>

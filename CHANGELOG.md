@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.4.0] - 2025-03-18
+### Removed
+- Pooling Utility relocated to its own package. Install with ```https://github.com/InfiniteCanvas/Pooling-Utility.git```
+
+### Added
+- VContainer Source Generator Dll downloader
+- Packages to PackageInstaller
+  - Pooling Utility
+  - Ink Integration
+
+### Changed
+- Relocated menu items of all editor windows to `Tools`
+
 ## [1.3.0] - 2025-02-20
 ### Added
 - AddressablesLabelUtility now has a preview of affected assets

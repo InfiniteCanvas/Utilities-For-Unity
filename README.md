@@ -28,9 +28,25 @@ Add this line to your `manifest.json` under the dependencies section:
 
 Classes and extension methods that make life easier in Unity.
 
-## [Pooling](./Analyzers/Pooling/README.md)
-
-Use the [Pooled] attribute on any instantiatable class to add static methods that handles pooling! It uses Unity's own [pooling solution](https://docs.unity3d.com/ScriptReference/Pool.ObjectPool_1.html).
+- [Utility Classes](./Utilities/README.md#utility-classes)
+    - [Disposable Wrapper](./Utilities/README.md#disposable-wrapper)
+    - [Addressables Loader](./Utilities/README.md#addressables-loader)
+    - [Addressables Label Utility (Editor)](./Utilities/README.md#addressables-label-utility-editor)
+    - [2D Lighting \& Sprite Utilities](./Utilities/README.md#2d-lighting--sprite-utilities)
+        - [ShadowCaster2D Tools](./Utilities/README.md#shadowcaster2d-tools)
+        - [Sprite Outline Configuration](./Utilities/README.md#sprite-outline-configuration)
+    - [Package Installer Utility](./Utilities/README.md#package-installer-utility)
+    - [RingBuffer](./Utilities/README.md#ringbuffer)
+    - [RingBufferSafe](./Utilities/README.md#ringbuffersafe)
+    - [Trigger](./Utilities/README.md#trigger)
+- [Extensions](./Utilities/README.md#extensions)
+    - [Generic Extensions](./Utilities/README.md#generic-extensions)
+    - [Mathematics Extensions](./Utilities/README.md#mathematics-extensions)
+    - [Number Extensions](./Utilities/README.md#number-extensions)
+    - [Boolean Extensions](./Utilities/README.md#boolean-extensions)
+    - [Unity Pool Extensions](./Utilities/README.md#unity-pool-extensions)
+    - [Vector Extensions](./Utilities/README.md#vector-extensions)
+        - [View Cone Checks](./Utilities/README.md#view-cone-checks)
 
 ## Contributing
 
@@ -45,10 +61,6 @@ Feel free to submit issues and enhancement requests!
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For issues, questions, or contributions, please visit the [GitHub repository](https://github.com/InfiniteCanvas/Unity-Utilities).
 
 ---
 
