@@ -14,7 +14,6 @@ namespace InfiniteCanvas.Utilities.Extensions
 
 		public static void Release<T>(this List<T> collection)
 		{
-			collection.Clear();
 			ListPool<T>.Release(collection);
 		}
 
@@ -27,7 +26,6 @@ namespace InfiniteCanvas.Utilities.Extensions
 
 		public static void Release<T>(this HashSet<T> collection)
 		{
-			collection.Clear();
 			HashSetPool<T>.Release(collection);
 		}
 	}

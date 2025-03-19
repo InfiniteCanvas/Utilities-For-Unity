@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0] - 2025-03-19
+## Added
+- `IEnumerable<T>.IsNullOrEmpty` shorthand check for collections
+
+## Changed
+- Removed side effects of clearing collections before returning them to the pool in `UnityPoolExtensions`
+- Changed `HashMap<TKey, TValue>.GetValueOrDefault` to return specified default value, if provided
+
 ## [1.4.0] - 2025-03-18
 ### Removed
 - Pooling Utility relocated to its own package. Install with ```https://github.com/InfiniteCanvas/Pooling-Utility.git```

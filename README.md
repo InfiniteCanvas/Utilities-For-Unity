@@ -40,6 +40,7 @@ Classes and extension methods that make life easier in Unity.
     - [RingBufferSafe](./Utilities/README.md#ringbuffersafe)
     - [Trigger](./Utilities/README.md#trigger)
 - [Extensions](./Utilities/README.md#extensions)
+    - [CollectionsExtensions](./Utilities/README.md#collectionsextensions)
     - [Generic Extensions](./Utilities/README.md#generic-extensions)
     - [Mathematics Extensions](./Utilities/README.md#mathematics-extensions)
     - [Number Extensions](./Utilities/README.md#number-extensions)

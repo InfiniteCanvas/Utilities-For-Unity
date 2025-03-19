@@ -12,6 +12,7 @@
   - [RingBufferSafe](#ringbuffersafe)
   - [Trigger](#trigger)
 - [Extensions](#extensions)
+  - [CollectionsExtensions](#collectionsextensions)
   - [Generic Extensions](#generic-extensions)
   - [Mathematics Extensions](#mathematics-extensions)
   - [Number Extensions](#number-extensions)
@@ -47,12 +48,14 @@ using (var wrapper = new DisposableWrapper<Resource>(resource, r => r.Cleanup())
 ## Addressables Loader
 
 **Key Features:**
+
 - Loading (sync/async) with handle caching
 - Batch preloading into cache
 - Bulk releasing from cache
 - Bulk operations use Addressables.LoadResourceLocationsAsync to get primary keys
 
 **Usage:**
+
 ```cs
 // Synchronous load
 var weaponPrefab = AddressablesLoader.GetAsset("Weapons/LaserRifle");
@@ -74,20 +77,23 @@ AddressablesLoader.ReleaseAssets(callback: (success, key) =>
 ```
 
 **Performance Notes:**
+
 - `GetAsset()` uses `WaitForCompletion` - avoid in performance-critical paths
 - Preloading batches reduce runtime hitches
 - Cache checking happens before Addressables API calls
-  - `GetAllAssets` uses `WaitForCompletion` to get resource location, then uses `GetAsset` to load assets not in cache
+    - `GetAllAssets` uses `WaitForCompletion` to get resource location, then uses `GetAsset` to load assets not in cache
 
 ## Addressables Label Utility (Editor)
 
 **Workflow:**
+
 1. Open via `Window > Asset Management > Addressables > Label By Type`
 2. Select target type
 3. Specify label and target Addressables group
 4. Click "Apply Labels"
 
 **Features:**
+
 - Type filtering with regex support
 - Automatic label creation
 - Group assignment validation
@@ -95,6 +101,7 @@ AddressablesLoader.ReleaseAssets(callback: (success, key) =>
 - Assembly-optimized type discovery
 
 **Usage Example:**
+
 ```cs
 // Batch label all WeaponConfig assets
 LabelAssetsOfType(typeof(WeaponConfig), 
@@ -104,6 +111,7 @@ LabelAssetsOfType(typeof(WeaponConfig),
 ```
 
 **Requirements:**
+
 - Addressables package
 - Existing Addressables group configuration
 
@@ -228,6 +236,14 @@ if (trigger.Fire)
 This section provides additional utility extensions that enhance the functionality of your project by offering helper
 methods for common operations.
 
+## CollectionsExtensions
+
+**HashMap<TKey, TValue>.GetValueOrDefault:**
+Returns the value or a default value.
+
+**IEnumerable<T>.IsNullOrEmpty:**
+Returns true if collection is null or empty.
+
 ## Generic Extensions
 
 Provides a helper method for creating a disposable wrapper around objects.
@@ -312,31 +328,31 @@ flag.True();   // flag becomes true
 These extensions offer helper methods to retrieve and release pooled collections using Unity's built-in pool system.
 
 **GetList<T>**  
-Retrieves a pooled list of type T.
+Retrieves a pooled list of type T and puts element into the collection.
 
 ```cs
-public static List<T> GetList(this T element) => ListPool.Get();
+var gameObjectList = gameObject.GetList();
 ```
 
 **Release (List)**  
 Releases a list back to the pool.
 
 ```cs
-public static void Release(this List collection) => ListPool.Release(collection);
+gameObjectList.Release();
 ```
 
 **GetHashSet<T>**  
-Retrieves a pooled HashSet of type T.
+Retrieves a pooled HashSet of type T and puts element into the collection.
 
 ```cs
-public static HashSet<T> GetHashSet(this T element) => HashSetPool.Get();
+var gameObjectHashSet = gameObject.GetHashSet();
 ```
 
 **Release (HashSet)**  
 Releases a HashSet back to the pool.
 
 ```cs
-public static void Release(this HashSet collection) => HashSetPool.Release(collection);
+gameObjectHashSet.Release();
 ```
 
 ## Vector Extensions
@@ -352,6 +368,7 @@ var randomInt = Vector2Int.up.RandomBetween();
 ```
 
 ### View Cone Checks
+
 **Vector3**
 <br>
 Checks if a 3D point is within a view cone defined by direction, distance, and angles.
