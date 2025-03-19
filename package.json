@@ -1,7 +1,7 @@
 {
-    "name": "io.infinitecanvas.unityutilities",
-    "version": "1.5.0",
-    "displayName": "Unity Utilities",
+    "name": "io.infinitecanvas.utilitiesforunity",
+    "version": "2.0.0",
+    "displayName": "Utilities for Unity",
     "description": "Utilities for Unity",
     "unity": "6000.1",
     "license": "MIT",

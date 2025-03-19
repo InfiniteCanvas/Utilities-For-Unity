@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.0] - 2025-03-19
+### Changed
+- Renamed Repo and Package to clarify it's not a package FROM Unity (name was ambiguous)
+
 ## [1.5.0] - 2025-03-19
 ## Added
 - `IEnumerable<T>.IsNullOrEmpty` shorthand check for collections
