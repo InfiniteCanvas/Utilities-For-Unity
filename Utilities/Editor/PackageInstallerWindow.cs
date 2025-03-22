@@ -94,6 +94,18 @@ namespace InfiniteCanvas.Utilities.Editor
 				)
 			},
 			{
+				"Serilog Integration (Unity Sink)", (
+					"https://github.com/InfiniteCanvas/Serilog-Integration.git",
+					"Adds a sink for Serilog, logging to debug console.\n\n"
+				  + "Features:\n"
+				  + "• Adds a sink to log to Unity's debug console\n\n"
+				  + "Requirements:\n"
+				  + "• Serilog.dll from the Serilog NuGet package\n\n"
+				  + "Repository: https://github.com/InfiniteCanvas/Serilog-Integration",
+					false
+				)
+			},
+			{
 				"R3", (
 					"https://github.com/Cysharp/R3.git?path=src/R3.Unity/Assets/R3.Unity",
 					"Reactive Extensions for Unity (R3).\n\n"
@@ -158,6 +170,8 @@ namespace InfiniteCanvas.Utilities.Editor
 				  + "• Handle choices and branching narratives\n"
 				  + "• Process special commands for audio, animation, UI, and scene management\n"
 				  + "• Separation of concerns using dependency injection with VContainer\n"
+				  + "Requirements:\n"
+				  + "• Ink Unity Integration package installed\n"
 				  + "Repository: https://github.com/InfiniteCanvas/Ink-Integration.git",
 					false
 				)
