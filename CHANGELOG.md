@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1] - 2025-03-22
+### Added 
+- added [Ink Unity Integration](https://github.com/inkle/ink-unity-integration#upm) to package installer
+
 ## [2.0.0] - 2025-03-19
 ### Changed
 - Renamed Repo and Package to clarify it's not a package FROM Unity (name was ambiguous)

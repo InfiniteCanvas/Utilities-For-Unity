@@ -136,11 +136,24 @@ namespace InfiniteCanvas.Utilities.Editor
 				)
 			},
 			{
-				"Ink Integration", (
-					"https://github.com/InfiniteCanvas/Ink-Integration.git",
-					"Integrates Ink narrative scripting language with Unity, using MessagePipe to step through Ink story JSON files.\n\n"
+				"Ink Unity Integration", (
+					"https://github.com/inkle/ink-unity-integration.git#upm",
+					"Integrates inkle's ink narrative scripting language with Unity.\n\n"
 				  + "Features:\n"
-				  + "• Load and parse Ink story JSON files\n"
+				  + "• Compile, play and debug ink stories\n"
+				  + "• Auto-compilation of ink files to JSON\n"
+				  + "• Powerful Ink Player Window for testing and debugging\n"
+				  + "• Inspector tools with custom icons and information\n"
+				  + "• C# runtime API for controlling stories in-game\n\n"
+				  + "Repository: https://github.com/inkle/ink-unity-integration",
+					false
+				)
+			},
+			{
+				"Custom Ink Integration", (
+					"https://github.com/InfiniteCanvas/Ink-Integration.git",
+					"Uses `Ink Unity Integration` to integrate ink narrative scripting language with Unity, using MessagePipe to step through the story.\n\n"
+				  + "Features:\n"
 				  + "• Step through narrative content with a message-based architecture\n"
 				  + "• Handle choices and branching narratives\n"
 				  + "• Process special commands for audio, animation, UI, and scene management\n"
