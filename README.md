@@ -47,6 +47,7 @@ Classes and extension methods that make life easier in Unity.
     - [Generic Extensions](./Utilities/README.md#generic-extensions)
     - [Mathematics Extensions](./Utilities/README.md#mathematics-extensions)
     - [Number Extensions](./Utilities/README.md#number-extensions)
+    - [Custom Hash Extensions](./Utilities/README.md#custom-hash-extensions)
     - [Boolean Extensions](./Utilities/README.md#boolean-extensions)
     - [Span Extensions](./Utilities/README.md#span-extensions)
     - [Unity Pool Extensions](./Utilities/README.md#unity-pool-extensions)

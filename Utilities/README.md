@@ -16,6 +16,7 @@
   - [Generic Extensions](#generic-extensions)
   - [Mathematics Extensions](#mathematics-extensions)
   - [Number Extensions](#number-extensions)
+  - [Custom Hash Extensions](#custom-hash-extensions)
   - [Boolean Extensions](#boolean-extensions)
   - [Span Extensions](#span-extensions)
   - [Unity Pool Extensions](#unity-pool-extensions)
@@ -322,6 +323,16 @@ bool flag = false;
 flag.Toggle(); // flag becomes true
 flag.False();  // flag becomes false
 flag.True();   // flag becomes true
+```
+
+## Custom Hash Extensions
+
+Adds custom hash functions to ReadOnlySpan\<char\> and string
+
+```csharp
+var s = "hello world";
+var span = s.AsSpan();
+Debug.Log(s.GetCustomHashCode() == span.GetCustomHashCode()); // true
 ```
 
 ## Span Extensions

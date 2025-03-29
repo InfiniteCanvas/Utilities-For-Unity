@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.0] - 2025-03-29
+
+### Added
+
+- CustomHashExtensions with guaranteed same hash for
+  - ReadOnlySpan<char>
+  - string
+
 ## [2.1.0] - 2025-03-29
 
 ### Added
