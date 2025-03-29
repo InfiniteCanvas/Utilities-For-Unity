@@ -17,6 +17,7 @@
   - [Mathematics Extensions](#mathematics-extensions)
   - [Number Extensions](#number-extensions)
   - [Boolean Extensions](#boolean-extensions)
+  - [Span Extensions](#span-extensions)
   - [Unity Pool Extensions](#unity-pool-extensions)
   - [Vector Extensions](#vector-extensions)
     - [View Cone Checks](#view-cone-checks)
@@ -321,6 +322,16 @@ bool flag = false;
 flag.Toggle(); // flag becomes true
 flag.False();  // flag becomes false
 flag.True();   // flag becomes true
+```
+
+## Span Extensions
+Adds utility functions to spans.
+
+**IndicesOf:**
+```csharp
+ReadOnlySpan<char> data = "hello world".AsSpan();
+var indices = data.IndicesOf('l');
+// Returns [2, 3, 9] (indices of 'l' in "hello world")
 ```
 
 ## Unity Pool Extensions

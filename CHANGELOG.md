@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0] - 2025-03-29
+
+### Added
+
+- SpanExtensions
+  - IndicesOf\<T\>
+
 ## [2.0.2] - 2025-03-22
 
 ### Added

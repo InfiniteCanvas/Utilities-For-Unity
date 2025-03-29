@@ -5,12 +5,15 @@ Some utilities and other things I usually need and ended up writing again and ag
 ## Installation
 
 ### Via Unity Package Manager
+
 1. Open the Package Manager window in Unity
 2. Click the + button and select "Add package from git URL"
 3. Enter: `https://github.com/InfiniteCanvas/Utilities-For-Unity.git`
 
 ### Via manifest.json
+
 Add this line to your `manifest.json` under the dependencies section:
+
 ```json
 {
   "dependencies": {
@@ -45,6 +48,7 @@ Classes and extension methods that make life easier in Unity.
     - [Mathematics Extensions](./Utilities/README.md#mathematics-extensions)
     - [Number Extensions](./Utilities/README.md#number-extensions)
     - [Boolean Extensions](./Utilities/README.md#boolean-extensions)
+    - [Span Extensions](./Utilities/README.md#span-extensions)
     - [Unity Pool Extensions](./Utilities/README.md#unity-pool-extensions)
     - [Vector Extensions](./Utilities/README.md#vector-extensions)
         - [View Cone Checks](./Utilities/README.md#view-cone-checks)
