@@ -1,27 +1,28 @@
 # Utility Classes
 
 - [Utility Classes](#utility-classes)
-  - [Disposable Wrapper](#disposable-wrapper)
-  - [Addressables Loader](#addressables-loader)
-  - [Addressables Label Utility (Editor)](#addressables-label-utility-editor)
-  - [2D Lighting \& Sprite Utilities](#2d-lighting--sprite-utilities)
-    - [ShadowCaster2D Tools](#shadowcaster2d-tools)
-    - [Sprite Outline Configuration](#sprite-outline-configuration)
-  - [Package Installer Utility](#package-installer-utility)
-  - [RingBuffer](#ringbuffer)
-  - [RingBufferSafe](#ringbuffersafe)
-  - [Trigger](#trigger)
+    - [Disposable Wrapper](#disposable-wrapper)
+    - [Addressables Loader](#addressables-loader)
+    - [Addressables Label Utility (Editor)](#addressables-label-utility-editor)
+    - [2D Lighting \& Sprite Utilities](#2d-lighting--sprite-utilities)
+        - [ShadowCaster2D Tools](#shadowcaster2d-tools)
+        - [Sprite Outline Configuration](#sprite-outline-configuration)
+    - [Package Installer Utility](#package-installer-utility)
+    - [RingBuffer](#ringbuffer)
+    - [RingBufferSafe](#ringbuffersafe)
+    - [Trigger](#trigger)
+    - [SerializableNestedDictionary](#serializablenesteddictionary)
 - [Extensions](#extensions)
-  - [CollectionsExtensions](#collectionsextensions)
-  - [Generic Extensions](#generic-extensions)
-  - [Mathematics Extensions](#mathematics-extensions)
-  - [Number Extensions](#number-extensions)
-  - [Custom Hash Extensions](#custom-hash-extensions)
-  - [Boolean Extensions](#boolean-extensions)
-  - [Span Extensions](#span-extensions)
-  - [Unity Pool Extensions](#unity-pool-extensions)
-  - [Vector Extensions](#vector-extensions)
-    - [View Cone Checks](#view-cone-checks)
+    - [CollectionsExtensions](#collectionsextensions)
+    - [Generic Extensions](#generic-extensions)
+    - [Mathematics Extensions](#mathematics-extensions)
+    - [Number Extensions](#number-extensions)
+    - [Custom Hash Extensions](#custom-hash-extensions)
+    - [Boolean Extensions](#boolean-extensions)
+    - [Span Extensions](#span-extensions)
+    - [Unity Pool Extensions](#unity-pool-extensions)
+    - [Vector Extensions](#vector-extensions)
+        - [View Cone Checks](#view-cone-checks)
 
 ## Disposable Wrapper
 
@@ -233,6 +234,60 @@ if (trigger.Fire)
 }
 ```
 
+## SerializableNestedDictionary
+
+The `SerializableNestedDictionary` class provides a Unity-serializable implementation of a nested dictionary structure. It maintains a two-level dictionary that can be
+properly serialized in the Unity Inspector, solving the common issue of dictionaries not being natively serializable in Unity.
+
+**Key Features:**
+
+- Full Unity Inspector serialization support
+- Maintains a two-level dictionary structure accessible via `dictionary[outerKey][innerKey]` pattern
+- Implements Unity's `ISerializationCallbackReceiver` for proper serialization
+- Standard dictionary-like methods for convenient data access
+
+**Special Behaviour:**
+
+- Using an unknown outer key with index access assigns a new empty dictionary to that key and returns it
+    - `nestedDict[unknownKey]` will create a new inner dictionary with the outher key of `unknownKey`
+
+**Example Usage:**
+
+```cs
+[SerializeField] 
+private SerializableNestedDictionary<string, int, float> playerStats = new();
+
+// Adding or updating values
+playerStats.AddOrUpdate("Player1", 1, 85.5f);
+playerStats.AddOrUpdate("Player1", 2, 92.3f);
+playerStats.AddOrUpdate("Player2", 1, 78.0f);
+
+// Accessing inner dictionaries
+var player1Stats = playerStats["Player1"];
+Debug.Log($"Player1 Level 2 stat: {player1Stats[2]}");
+
+// Checking and retrieving values
+if (playerStats.TryGetValue("Player2", 1, out float stat)) {
+    Debug.Log($"Player2 Level 1 stat: {stat}");
+}
+
+// Checking for outer keys
+if (playerStats.ContainsKey("Player3")) {
+    // Player3 exists in the dictionary
+}
+
+if (playerStats.RemoveInnerValue("Player1", 1, out int value)) {
+    Debug.Log($"Removed value {value} from Player1 Level 1");
+}
+
+if (playerStats.RemoveInnerDictionary("Player2", out Dictionary<int, float> innerDict)) {
+    // do somethign with inner dict
+}
+
+// Get the entire outer dictionary if needed
+var allData = playerStats.GetOuterDictionary();
+```
+
 # Extensions
 
 This section provides additional utility extensions that enhance the functionality of your project by offering helper
@@ -336,9 +391,11 @@ Debug.Log(s.GetCustomHashCode() == span.GetCustomHashCode()); // true
 ```
 
 ## Span Extensions
+
 Adds utility functions to spans.
 
 **IndicesOf:**
+
 ```csharp
 ReadOnlySpan<char> data = "hello world".AsSpan();
 var indices = data.IndicesOf('l');

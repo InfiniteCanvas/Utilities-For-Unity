@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace InfiniteCanvas.Utilities
 {
@@ -12,10 +13,15 @@ namespace InfiniteCanvas.Utilities
 		*/
 		private int _flag;
 
-		public bool Fire => IsPrimed();
+		public Trigger(bool prime) => _flag = prime ? 1 : 0;
+
+		public Trigger() => _flag = 0;
+
+		[Obsolete("Use `Trigger.TryFire` instead.")]
+		public bool Fire => Interlocked.Exchange(ref _flag, 0) == 1;
+
+		public bool TryFire => Interlocked.Exchange(ref _flag, 0) == 1;
 
 		public void Prime() => _flag = 1;
-
-		private bool IsPrimed() => Interlocked.Exchange(ref _flag, 0) == 1;
 	}
 }

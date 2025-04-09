@@ -42,6 +42,7 @@ Classes and extension methods that make life easier in Unity.
     - [RingBuffer](./Utilities/README.md#ringbuffer)
     - [RingBufferSafe](./Utilities/README.md#ringbuffersafe)
     - [Trigger](./Utilities/README.md#trigger)
+    - [SerializableNestedDictionary](./Utilities/README.md#serializablenesteddictionary)
 - [Extensions](./Utilities/README.md#extensions)
     - [CollectionsExtensions](./Utilities/README.md#collectionsextensions)
     - [Generic Extensions](./Utilities/README.md#generic-extensions)

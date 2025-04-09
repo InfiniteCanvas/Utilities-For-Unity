@@ -1,19 +1,39 @@
 # Changelog
 
+Using [SemVer](https://semver.org/)
+
+The gist of it is **[major.minor.patch]**:
+
+- **Major**: API breaking changes, behaviour might change
+- **Minor**: API upgrades, backwards compatible, behaviour unchanged
+- **Patch**: API unchanged, fixed functionality
+
+## [2.3.0] - 2025-04-10
+
+### Added
+
+- `Trigger.TryFire` to clarify that it can fail
+    - `Trigger.Fire` will be removed later
+- `SerializedNestedDictionary` serializes a `Dictionary<TOuterKey, Dictionary<TInnerKey,TValue>>` with 2 lists in Unity
+
+### Fixed
+
+- `DisposableWrapper` now primes the trigger for disposing correctly
+
 ## [2.2.0] - 2025-03-29
 
 ### Added
 
 - CustomHashExtensions with guaranteed same hash for
-  - ReadOnlySpan<char>
-  - string
+    - ReadOnlySpan<char>
+    - string
 
 ## [2.1.0] - 2025-03-29
 
 ### Added
 
 - SpanExtensions
-  - IndicesOf\<T\>
+    - IndicesOf\<T\>
 
 ## [2.0.2] - 2025-03-22
 

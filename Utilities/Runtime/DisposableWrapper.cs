@@ -16,12 +16,12 @@ namespace InfiniteCanvas.Utilities
 		{
 			_instance = instance;
 			_disposeAction = disposeAction;
-			_disposeTrigger = new Trigger();
+			_disposeTrigger = new Trigger(true);
 		}
 
 		public void Dispose()
 		{
-			if (_disposeTrigger.Fire)
+			if (_disposeTrigger.TryFire)
 				_disposeAction(_instance);
 		}
 	}
