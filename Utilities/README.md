@@ -11,6 +11,7 @@
     - [RingBuffer](#ringbuffer)
     - [RingBufferSafe](#ringbuffersafe)
     - [Trigger](#trigger)
+    - [TimedSemaphore](#timedsemaphore)
     - [SerializableNestedDictionary](#serializablenesteddictionary)
 - [Extensions](#extensions)
     - [CollectionsExtensions](#collectionsextensions)
@@ -232,6 +233,20 @@ if (trigger.Fire)
 {
     Debug.Log("Trigger fired successfully!");
 }
+```
+
+## TimedSemaphore
+
+It's a SemaphoreSlim, but it releases automatically after a set time after calling WaitAsync. There is no manual release.
+
+**Example Usage:**
+
+```cs
+var initialCount = 1;
+var maximumCount = 1;
+var ts =  new TimedSemaphore(initialCount, maximumCount, TimeSpan.FromMilliseconds(200));
+await ts.WaitAsync(ct);
+await ts.DisposeAsync();
 ```
 
 ## SerializableNestedDictionary

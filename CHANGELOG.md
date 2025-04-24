@@ -8,6 +8,12 @@ The gist of it is **[major.minor.patch]**:
 - **Minor**: API upgrades, backwards compatible, behaviour unchanged
 - **Patch**: API unchanged, fixed functionality
 
+## [2.4.0] - 2025-04-24
+
+### Added
+
+- `TimedSemaphore`, a SemaphoreSlim that automatically releases after a set time
+
 ## [2.3.0] - 2025-04-10
 
 ### Added
